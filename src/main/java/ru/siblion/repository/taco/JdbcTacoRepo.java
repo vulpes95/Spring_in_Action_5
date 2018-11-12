@@ -34,19 +34,18 @@ public class JdbcTacoRepo implements TacoRepo {
 
     @Override
     public Taco save(Taco taco) {
-        // TODO: 08.11.2018 Сдесь все плохо 
         long tacoId = saveTacoInfo(taco);
         taco.setId(tacoId);
         for (String ingredient : taco.getIngredients()) {
             saveIngredientToTaco(new Ingredient
                     (ingredient,null, null), tacoId);
         }
-        System.out.println("[success]");
         return taco;
     }
 
     /**
-     * До этого не было setReturnGeneratedKeys(true) -> не работало.
+     * До этого не было setReturnGeneratedKeys(true). Из-за этого не укадалось
+     * получить id сохраненной записи в БД с помощью KeyHolder.
      */
     private long saveTacoInfo(Taco taco) {
 
